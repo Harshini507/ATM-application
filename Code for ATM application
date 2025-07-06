@@ -1,0 +1,70 @@
+#Introduction.py:
+def menu():
+    print("Funds Transfer Application")
+    print("1.Deposit")
+    print("2.withdraw")
+    print("3.Balance Enquiry")
+    print("4.Exit")
+#operation1.py:
+from Introduction import menu
+from operation2 import deposit,withdraw,baleq
+import sys
+from operation3 import DepositError,WithDrawError,InsuffFundError
+while True:
+    menu()
+    try:
+        ch=int(input("enter the choice:"))
+        match(ch):
+            case 1:
+                try:
+                    deposit()
+                except DepositError:
+                    print("Don't enter -ve or zero values for deposit")
+                except ValueError:
+                    print("Don't enter alphabets,strings and special symbols")
+            case 2:
+                try:
+                    withdraw()
+                except WithDrawError:
+                    print("Don't enter -ve or zero values to withdraw")
+                except InsuffFundError:
+                    print("Your account has Insufficient Funds")
+                except ValueError:
+                    print("Don't enter alphabets,strings and special symbols")
+            case 3:
+                baleq()
+            case 4:
+                print("Thankyou for visit")
+                sys.exit()
+            case _:
+                print("Please enter valid operation")
+    except ValueError:
+        print("Don't enter alphabets,strings and special symbols")
+#operation2.py:
+from operation3 import DepositError,WithDrawError,InsuffFundError
+bal=1000.00
+def deposit():
+    damount=float(input("Enter the deposit amount:"))
+    if damount<=0:
+        raise DepositError
+    else:
+        global bal
+        bal=bal+damount
+        print("your account xxxxx2345 credited with INR:{}".format(damount))
+        print("Your account xxxxx2345 balance with INR:{}".format(bal))
+def withdraw():
+    global bal
+    wamount=float(input("Enter the withdraw amount:"))
+    if wamount>=0:
+        raise WithDrawError
+    else:
+        bal=bal-wamount
+        print("your account xxxxx2345 debited with INR:{}".format(wamount))
+        print("Your account xxxxx2345 balance with INR:{}".format(bal))
+def baleq():
+    global bal
+    print("Your account xxxxx2345 balance with INR:{}".format(bal))
+#operation3.py:
+class DepositError(Exception):pass
+class WithDrawError(Exception):pass
+class InsuffFundError(Exception):pass
